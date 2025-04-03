@@ -1,0 +1,25 @@
+# Enable URL rewriting
+
+RewriteEngine On
+RewriteBase /
+
+# If the requested file or directory exists, serve it directly
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Otherwise, redirect to index.php
+
+RewriteRule ^(.\*)$ index.php [QSA,L]
+
+# Prevent access to sensitive directories
+
+<FilesMatch "^(config|src/config)">
+Order Allow,Deny
+Deny from all
+</FilesMatch>
+
+# Increase upload limits for student images
+
+php_value upload_max_filesize 5M
+php_value post_max_size 5M
